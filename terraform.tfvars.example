@@ -1,0 +1,14 @@
+aws_region = "us-east-1"
+
+# Replace with a strong password before you apply.
+db_password = "YourStrongPassword123!"
+
+# Restrict access to a single IP range whenever possible.
+db_allowed_cidr = "0.0.0.0/0"
+
+# Optional overrides for the default module values.
+# db_name = "mydatabase"
+# db_username = "sqladmin"
+# db_instance_class = "db.t3.micro"
+# db_allocated_storage = 20
+# db_publicly_accessible = true
