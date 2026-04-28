@@ -94,6 +94,44 @@ Instead, it calls:
 
 The RDS module receives needed values from the VPC module, like `vpc_id` and `private_subnet_ids`.
 
+### Where values come from
+
+- Root variables in `variables.tf` define values such as:
+  - `aws_region`
+  - `vpc_cidr`
+  - `public_subnet_cidrs`
+  - `private_subnet_cidrs`
+  - `db_instance_class`
+  - `db_allocated_storage`
+  - `db_engine`
+  - `db_username`
+  - `db_password`
+  - `db_publicly_accessible`
+  - `db_allowed_cidr`
+  - `project_name`
+  - `environment`
+
+- `terraform.tfvars` or `terraform.tfvars.example` can override these root variable defaults.
+
+- `main.tf` passes root variable values into child modules:
+  - `modules/vpc/` receives network and tagging inputs
+  - `modules/rds/` receives database and tagging inputs
+
+- `modules/vpc/variables.tf` defines the inputs the VPC module accepts.
+- `modules/rds/variables.tf` defines the inputs the RDS module accepts.
+
+- `modules/vpc/outputs.tf` returns values such as:
+  - `vpc_id`
+  - `public_subnet_ids`
+  - `private_subnet_ids`
+
+- `main.tf` feeds the private subnet IDs and VPC ID into `module.rds` so RDS is deployed inside the VPC.
+
+- `modules/rds/outputs.tf` returns values such as:
+  - `db_endpoint`
+  - `db_instance_id`
+  - `db_security_group_id`
+
 ### `outputs.tf`
 Outputs show useful values after deployment.
 These include:
