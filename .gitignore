@@ -10,7 +10,7 @@ crash.log
 
 # CLI configuration files
 .terraformrc
-gerraform.rc
+terraform.rc
 
 # Override files
 override.tf

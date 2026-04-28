@@ -23,3 +23,8 @@ output "rds_instance_id" {
   description = "ID of the SQL Server RDS instance."
   value       = module.rds.db_instance_id
 }
+
+output "rds_security_group_id" {
+  description = "Security group ID protecting the SQL Server instance."
+  value       = module.rds.db_security_group_id
+}

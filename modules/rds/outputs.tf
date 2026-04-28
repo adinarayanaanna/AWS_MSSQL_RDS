@@ -7,3 +7,8 @@ output "db_instance_id" {
   description = "ID of the SQL Server DB instance."
   value       = aws_db_instance.this.id
 }
+
+output "db_security_group_id" {
+  description = "Security group ID for the SQL Server DB instance."
+  value       = aws_security_group.db.id
+}

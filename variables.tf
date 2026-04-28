@@ -41,10 +41,16 @@ variable "db_engine" {
   default     = "sqlserver-ex"
 }
 
-variable "db_name" {
-  description = "Name of the initial database to create."
+variable "project_name" {
+  description = "Friendly name for tagging and resource identification."
   type        = string
-  default     = "mydatabase"
+  default     = "aws-mssql-rds"
+}
+
+variable "environment" {
+  description = "Deployment environment used in tags."
+  type        = string
+  default     = "dev"
 }
 
 variable "db_username" {
@@ -57,16 +63,26 @@ variable "db_password" {
   description = "Master password for the SQL Server database."
   type        = string
   sensitive   = true
+
+  validation {
+    condition     = length(var.db_password) >= 8 && length(var.db_password) <= 128 && length(regex("[@/\\\" ]", var.db_password)) == 0
+    error_message = "The password must be 8-128 characters and must not contain '/', '@', '\"', or space."
+  }
 }
 
 variable "db_publicly_accessible" {
   description = "Whether the RDS instance should be publicly accessible."
   type        = bool
-  default     = true
+  default     = false
 }
 
 variable "db_allowed_cidr" {
   description = "CIDR range allowed to access the SQL Server port (1433)."
   type        = string
   default     = "0.0.0.0/0"
+
+  validation {
+    condition     = can(cidrhost(var.db_allowed_cidr, 1))
+    error_message = "db_allowed_cidr must be a valid CIDR block."
+  }
 }

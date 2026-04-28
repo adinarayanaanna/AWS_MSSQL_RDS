@@ -8,6 +8,16 @@ variable "subnet_ids" {
   type        = list(string)
 }
 
+variable "project_name" {
+  description = "Project name used for tagging."
+  type        = string
+}
+
+variable "environment" {
+  description = "Deployment environment used for tagging."
+  type        = string
+}
+
 variable "db_instance_class" {
   description = "RDS instance class."
   type        = string
@@ -20,11 +30,6 @@ variable "db_allocated_storage" {
 
 variable "db_engine" {
   description = "Database engine identifier."
-  type        = string
-}
-
-variable "db_name" {
-  description = "Initial database name."
   type        = string
 }
 

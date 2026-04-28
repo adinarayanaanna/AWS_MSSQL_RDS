@@ -4,18 +4,18 @@ resource "aws_vpc" "this" {
   enable_dns_support   = true
   enable_dns_hostnames = true
 
-  tags = {
+  tags = merge(local.common_tags, {
     Name = "terraform-vpc"
-  }
+  })
 }
 
 # Internet gateway for public subnet internet access.
 resource "aws_internet_gateway" "this" {
   vpc_id = aws_vpc.this.id
 
-  tags = {
+  tags = merge(local.common_tags, {
     Name = "terraform-igw"
-  }
+  })
 }
 
 # Route table that sends public subnet traffic to the internet gateway.
@@ -27,9 +27,9 @@ resource "aws_route_table" "public" {
     gateway_id = aws_internet_gateway.this.id
   }
 
-  tags = {
+  tags = merge(local.common_tags, {
     Name = "terraform-public-rt"
-  }
+  })
 }
 
 # Public subnets for resources that need internet access.
@@ -41,9 +41,9 @@ resource "aws_subnet" "public" {
   map_public_ip_on_launch = true
   availability_zone_id    = element(data.aws_availability_zones.available.zone_ids, each.key)
 
-  tags = {
+  tags = merge(local.common_tags, {
     Name = "terraform-public-${each.key}"
-  }
+  })
 }
 
 # Private subnets for RDS and other internal resources.
@@ -54,9 +54,9 @@ resource "aws_subnet" "private" {
   cidr_block           = each.value
   availability_zone_id = element(data.aws_availability_zones.available.zone_ids, each.key)
 
-  tags = {
+  tags = merge(local.common_tags, {
     Name = "terraform-private-${each.key}"
-  }
+  })
 }
 
 # Associate public subnets with the public route table.

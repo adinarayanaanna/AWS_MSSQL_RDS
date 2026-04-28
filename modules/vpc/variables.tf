@@ -13,7 +13,22 @@ variable "private_subnet_cidrs" {
   type        = list(string)
 }
 
+variable "project_name" {
+  description = "Project name used for tagging."
+  type        = string
+}
+
+variable "environment" {
+  description = "Deployment environment used for tagging."
+  type        = string
+}
+
 locals {
   public_subnet_map  = zipmap([for idx in range(length(var.public_subnet_cidrs)) : idx], var.public_subnet_cidrs)
   private_subnet_map = zipmap([for idx in range(length(var.private_subnet_cidrs)) : idx], var.private_subnet_cidrs)
+
+  common_tags = {
+    Project     = var.project_name
+    Environment = var.environment
+  }
 }
