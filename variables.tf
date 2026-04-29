@@ -65,7 +65,7 @@ variable "db_password" {
   sensitive   = true
 
   validation {
-    condition     = length(var.db_password) >= 8 && length(var.db_password) <= 128 && length(regex("[@/\\\" ]", var.db_password)) == 0
+    condition     = length(var.db_password) >= 8 && length(var.db_password) <= 128 && length(regexall("[@/\\\" ]", var.db_password)) == 0
     error_message = "The password must be 8-128 characters and must not contain '/', '@', '\"', or space."
   }
 }
