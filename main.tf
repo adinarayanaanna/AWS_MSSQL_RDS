@@ -2,7 +2,7 @@
 # Values are passed from root-level variables defined in `variables.tf`.
 
 module "vpc" {
-  source               = "./modules/vpc"
+  source = "./modules/vpc"
 
   # These values come from the root variable definitions in variables.tf:
   # - vpc_cidr
@@ -15,22 +15,22 @@ module "vpc" {
   # Tagging values from variables.tf:
   # - project_name
   # - environment
-  project_name         = var.project_name
-  environment          = var.environment
+  project_name = var.project_name
+  environment  = var.environment
 }
 
 module "rds" {
-  source                 = "./modules/rds"
+  source = "./modules/rds"
 
   # These values are outputs from the VPC module:
   # - module.vpc.vpc_id is the VPC created by the vpc module
   # - module.vpc.private_subnet_ids are the private subnet IDs created by the vpc module
-  vpc_id                 = module.vpc.vpc_id
-  subnet_ids             = module.vpc.private_subnet_ids
+  vpc_id     = module.vpc.vpc_id
+  subnet_ids = module.vpc.private_subnet_ids
 
   # Shared tagging values from variables.tf:
-  project_name           = var.project_name
-  environment            = var.environment
+  project_name = var.project_name
+  environment  = var.environment
 
   # These values come from root-level variables in variables.tf:
   db_instance_class      = var.db_instance_class
