@@ -34,9 +34,7 @@ pipeline {
     }
     stage('Terraform Plan') {
       steps {
-        withCredentials([
-          usernamePassword(credentialsId: 'aws_cred_jenkins', usernameVariable: 'AWS_ACCESS_KEY_ID', passwordVariable: 'AWS_SECRET_ACCESS_KEY')
-        ]) {
+        withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'aws_cred_jenkins', accessKeyVariable: 'AWS_ACCESS_KEY_ID', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
           withEnv(["TF_VAR_db_password=${params.DB_PASSWORD}"]) {
             bat "terraform.exe plan -var=\"db_allowed_cidr=${params.DB_ALLOWED_CIDR}\" -out=tfplan"
           }
@@ -48,9 +46,7 @@ pipeline {
         expression { return params.APPLY }
       }
       steps {
-        withCredentials([
-          usernamePassword(credentialsId: 'aws_cred_jenkins', usernameVariable: 'AWS_ACCESS_KEY_ID', passwordVariable: 'AWS_SECRET_ACCESS_KEY')
-        ]) {
+        withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'aws_cred_jenkins', accessKeyVariable: 'AWS_ACCESS_KEY_ID', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
           withEnv(["TF_VAR_db_password=${params.DB_PASSWORD}"]) {
             bat 'terraform.exe apply -auto-approve tfplan'
           }

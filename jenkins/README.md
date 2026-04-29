@@ -7,9 +7,9 @@ This project includes a Jenkins pipeline in the root `Jenkinsfile` to run Terraf
 ## Required Jenkins credentials
 
 1. `aws_cred_jenkins`
-   - Type: Username with password
-   - Username: AWS access key ID
-   - Password: AWS secret access key
+   - Type: AWS Credentials
+   - Provides the AWS access key ID and secret access key
+   - The pipeline binds this credential using the AWS Credentials plugin
 
 ## DB password handling
 
