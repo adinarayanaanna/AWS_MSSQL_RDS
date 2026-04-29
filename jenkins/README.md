@@ -14,6 +14,7 @@ This project includes a Jenkins pipeline in the root `Jenkinsfile` to run Terraf
 ## DB password handling
 
 - `DB_PASSWORD` is entered at build time as a hidden password parameter.
+- The pipeline now fails early with a clear error if `DB_PASSWORD` is not provided.
 - The pipeline uses it at runtime to pass `TF_VAR_db_password` into Terraform.
 - If you want a persistent secret store, save the password in Jenkins Credentials or AWS Secrets Manager and use it outside the pipeline.
 

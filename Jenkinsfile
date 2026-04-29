@@ -17,6 +17,15 @@ pipeline {
         checkout scm
       }
     }
+    stage('Validate Parameters') {
+      steps {
+        script {
+          if (!params.DB_PASSWORD) {
+            error('DB_PASSWORD must be provided before Terraform can run.')
+          }
+        }
+      }
+    }
     stage('Terraform Format') {
       steps {
         bat 'terraform.exe fmt -recursive -check'
