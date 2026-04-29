@@ -2,11 +2,11 @@ pipeline {
   agent any
 
   options {
-    ansiColor('xterm')
     timestamps()
   }
 
   parameters {
+
     choice(
       name: 'ACTION',
       choices: ['plan', 'apply', 'destroy'],
@@ -65,6 +65,7 @@ pipeline {
       }
 
       steps {
+
         withCredentials([
           usernamePassword(
             credentialsId: 'aws_cred_jenkins',
@@ -86,11 +87,13 @@ pipeline {
     }
 
     stage('Terraform Apply') {
+
       when {
         expression { params.ACTION == 'apply' }
       }
 
       steps {
+
         withCredentials([
           usernamePassword(
             credentialsId: 'aws_cred_jenkins',
@@ -108,11 +111,13 @@ pipeline {
     }
 
     stage('Terraform Destroy') {
+
       when {
         expression { params.ACTION == 'destroy' }
       }
 
       steps {
+
         input message: 'Are you sure you want to DESTROY all Terraform resources?', ok: 'Destroy'
 
         withCredentials([
