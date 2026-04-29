@@ -1,13 +1,12 @@
 pipeline {
   agent any
   options {
-    ansiColor('xterm')
     timestamps()
   }
   parameters {
     booleanParam(name: 'APPLY', defaultValue: false, description: 'Run terraform apply after a successful plan')
     string(name: 'DB_ALLOWED_CIDR', defaultValue: '0.0.0.0/0', description: 'CIDR range allowed to connect to the database')
-    passwordParam(name: 'DB_PASSWORD', defaultValue: '', description: 'SQL Server master password (will be hidden in Jenkins)')
+    password(name: 'DB_PASSWORD', defaultValue: '', description: 'SQL Server master password (will be hidden in Jenkins)')
   }
   environment {
     TF_IN_AUTOMATION = 'true'
