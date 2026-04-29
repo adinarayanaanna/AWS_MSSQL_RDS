@@ -6,14 +6,16 @@ This project includes a Jenkins pipeline in the root `Jenkinsfile` to run Terraf
 
 ## Required Jenkins credentials
 
-1. `aws-credentials`
+1. `aws_cred_jenkins`
    - Type: Username with password
    - Username: AWS access key ID
    - Password: AWS secret access key
 
-2. `tf-db-password`
-   - Type: Secret text
-   - Value: the SQL Server `db_password`
+## DB password handling
+
+- `DB_PASSWORD` is entered at build time as a hidden password parameter.
+- The pipeline uses it at runtime to pass `TF_VAR_db_password` into Terraform.
+- If you want a persistent secret store, save the password in Jenkins Credentials or AWS Secrets Manager and use it outside the pipeline.
 
 ## Pipeline parameters
 
